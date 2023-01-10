@@ -121,7 +121,7 @@ def test_describe_pe_direction(pe_direction, expected, testconfig):
     """test for phase encoding direction description"""
     metadata = {"PhaseEncodingDirection": pe_direction}
     dir_str = parameters.describe_pe_direction(metadata, testconfig)
-    assert dir_str == "phase encoding: " + expected
+    assert dir_str == f"phase encoding: {expected}"
 
 
 def test_describe_bvals_smoke(testlayout):

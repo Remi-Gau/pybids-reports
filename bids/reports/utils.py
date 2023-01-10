@@ -66,8 +66,7 @@ def remove_duplicates(seq):
     From https://stackoverflow.com/a/480227/2589328
     """
     seen = set()
-    seen_add = seen.add
-    return [x for x in seq if not (x in seen or seen_add(x))]
+    return [x for x in seq if x not in seen and not seen.add(x)]
 
 
 def num_to_str(num):
@@ -100,8 +99,7 @@ def list_to_str(lst):
     elif len(lst) == 2:
         str_ = " and ".join(lst)
     elif len(lst) > 2:
-        str_ = ", ".join(lst[:-1])
-        str_ += ", and {0}".format(lst[-1])
+        str_ = ", ".join(lst[:-1]) + ", and {0}".format(lst[-1])
     else:
         raise ValueError("List of length 0 provided.")
     return str_

@@ -27,8 +27,7 @@ def testconfig():
 
 @pytest.fixture
 def testmeta():
-    metadata = {"RepetitionTime": 2.0}
-    return metadata
+    return {"RepetitionTime": 2.0}
 
 
 def test_anat_info_smoke(testlayout, testconfig):
