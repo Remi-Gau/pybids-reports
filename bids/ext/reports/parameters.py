@@ -294,7 +294,7 @@ def variants(metadata: dict[str, Any], config: dict[str, dict[str, str]]) -> str
     variants = metadata.get("SequenceVariant", "")
     if isinstance(variants, str):
         variants = [
-            config["seqvar"].get(var, "UNKNOwN SEQUENCE VARIANT") for var in variants.split("_")
+            config["seqvar"].get(var, "UNKNOWN SEQUENCE VARIANT") for var in variants.split("_")
         ]
     return list_to_str(variants)
 
@@ -324,7 +324,7 @@ def sequence(metadata: dict[str, Any], config: dict[str, dict[str, str]]) -> str
     if seq_abbrs[0] and seqs_as_str:
         seqs_as_str += f" ({'/'.join(seq_abbrs)})"
     else:
-        seqs_as_str = "UNKNOwN SEQUENCE"
+        seqs_as_str = "UNKNOWN SEQUENCE"
 
     return seqs_as_str
 

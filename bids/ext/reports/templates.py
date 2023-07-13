@@ -17,17 +17,7 @@ def render(template_name: str, data: dict[str, Any] | None = None) -> str:
             #  keep is only available if chevron is installed from github
             # "keep": True,
         }
-        tmp = chevron.render(**args)
-        tmp = highlight_missing_tags(tmp)
-
-        return tmp
-
-
-def highlight_missing_tags(foo: str) -> str:
-    foo = f"[blue]{foo}[/blue]"
-    foo = foo.replace("{{", "[/blue][red]{{")
-    foo = foo.replace("}}", "}}[/red][blue]")
-    return foo
+        return chevron.render(**args)
 
 
 def footer() -> str:

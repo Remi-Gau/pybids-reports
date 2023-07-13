@@ -102,7 +102,7 @@ exclude = '''
 
 [tool.codespell]
 skip = "./.git,versioneer.py,_version.py,bids/ext/reports/tests/data/*"
-ignore-words-list = "te"
+ignore-words-list = "te,nin"
 
 [tool.mypy]
 exclude = ['bids/ext/reports/tests/']

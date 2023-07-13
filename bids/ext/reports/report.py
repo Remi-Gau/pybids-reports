@@ -178,7 +178,8 @@ class BIDSReport:
         for sub in subjects:
             descriptions.append(self._report_subject(subject=sub, **kwargs))
 
-        print(descriptions)
+        for ds in descriptions:
+            LOGGER.info(ds)
 
         counter = Counter(descriptions)
         LOGGER.info(f"Number of patterns detected: {len(counter.keys())}")
@@ -218,28 +219,37 @@ class BIDSReport:
             sessions = [sessions]
 
         for ses in sessions:
-            data_files = self.layout.get(
+            if data_files := self.layout.get(
                 subject=subject,
-                extension=[".nii", ".nii.gz", ".set", ".fif", ".edf", ".bdf", ".snirf"],
+                extension=[
+                    ".nii",
+                    ".nii.gz",
+                    ".set",
+                    ".fif",
+                    ".edf",
+                    ".bdf",
+                    ".snirf",
+                ],
                 **kwargs,
-            )
-
-            if data_files:
-                ses_description = parsing.parse_files(
+            ):
+                if ses_description := parsing.parse_files(
                     self.layout,
                     data_files,
                     self.config,
-                )
-                ses_description[0] = f"In session {ses}, " + ses_description[0]
-                description_list += ses_description
-                metadata = self.layout.get_metadata(data_files[0].path)
+                ):
+                    ses_description[0] = f"\nIn session {ses}, {ses_description[0]}"
+                    description_list += ses_description
+                    metadata = self.layout.get_metadata(data_files[0].path)
             else:
                 LOGGER.warning(f"No imaging files for subject {subject}")
                 metadata = None
 
         # Assume all data were converted the same way and use the first nifti
         # file's json for conversion information.
+        if not description_list:
+            return ""
+        description_list = [d for d in description_list if d]
         description = "\n\t".join(description_list)
         if metadata:
-            description += f"\n\n{parsing.final_paragraph(metadata)}"
+            description += f"\n{parsing.final_paragraph(metadata)}"
         return description

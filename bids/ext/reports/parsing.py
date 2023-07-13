@@ -211,16 +211,16 @@ def fmap_info(layout: BIDSLayout, files: list[BIDSFile], config: dict[str, dict[
     if img is None:
         files_not_found_warning(Path(first_file.path).relative_to(layout.root))
 
-    dir = "UNKNOWN PHASE ENCODING"
+    direction = "UNKNOWN PHASE ENCODING"
     if PhaseEncodingDirection := metadata.get("PhaseEncodingDirection"):
-        dir = config["dir"].get(PhaseEncodingDirection, "UNKNOWN PHASE ENCODING")
+        direction = config["dir"].get(PhaseEncodingDirection, "UNKNOWN PHASE ENCODING")
 
     desc_data = {
         **common_mri_desc(img, metadata, config),
         "te_1": parameters.echo_times_fmap(files)[0],
         "te_2": parameters.echo_times_fmap(files)[1],
         "slice_order": parameters.slice_order(metadata),
-        "dir": dir,
+        "dir": direction,
         "multiband_factor": parameters.multiband_factor(metadata),
         "intended_for": parameters.intendedfor_targets(metadata, layout),
     }
@@ -303,9 +303,6 @@ def parse_files(
     # Group files into individual runs
     data_files = collect_associated_files(layout, data_files, extra_entities=["run"])
 
-    # print(data_files)
-
-    # description_list = [general_acquisition_info(data_files[0][0].get_metadata())]
     description_list = []
     for group in data_files:
         if group[0].entities["datatype"] == "func":
@@ -349,7 +346,8 @@ def parse_files(
             LOGGER.warning(f" '{group[0].filename}' not yet supported.")
             group_description = ""
 
-        description_list.append(group_description)
+        if group_description:
+            description_list.append(group_description)
 
     return description_list
 

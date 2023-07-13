@@ -37,7 +37,7 @@ def test_sequence(ScanningSequence, expected_seq, testconfig):
         ("SS", "steady state"),
         ("TRSS", "time reversed steady state"),
         ("MP_SS", "MAG prepared and steady state"),
-        ("spam", "UNKNOwN SEQUENCE VARIANT"),
+        ("spam", "UNKNOWN SEQUENCE VARIANT"),
     ],
 )
 def test_variants(SequenceVariant, expected_var, testconfig):
